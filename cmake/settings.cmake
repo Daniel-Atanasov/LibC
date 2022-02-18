@@ -26,31 +26,55 @@ macro(setup target)
     # RELDEB_LINK
 
     if(DEFINED IS_CLANGCL OR DEFINED IS_MSVC)
-        string(REGEX REPLACE "/Ob1" "/Ob3" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
-        string(REGEX REPLACE "/Ob1" "/Ob3" CMAKE_C_FLAGS_RELWITHDEBINFO   "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
-        string(REGEX REPLACE "/Ob2" "/Ob3" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
-        string(REGEX REPLACE "/Ob2" "/Ob3" CMAKE_C_FLAGS_RELWITHDEBINFO   "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
 
-        set(COMPILE /MP /cgthreads8 /Zc:preprocessor /wd5105)
-        set(LINK /INCREMENTAL:NO /CGTHREADS:8)
+        string(REGEX REPLACE "/Ob[12]"            "/Ob3" CMAKE_CXX_FLAGS_RELEASE        "${CMAKE_CXX_FLAGS_RELEASE}")
+        string(REGEX REPLACE "/Ob[12]"            "/Ob3" CMAKE_C_FLAGS_RELEASE          "${CMAKE_C_FLAGS_RELEASE}")
+        string(REGEX REPLACE "/Ob[12]"            "/Ob3" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+        string(REGEX REPLACE "/Ob[12]"            "/Ob3" CMAKE_C_FLAGS_RELWITHDEBINFO   "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+        string(REGEX REPLACE "[/|-]RTC(su|[1su])" ""     CMAKE_CXX_FLAGS_DEBUG          "${CMAKE_CXX_FLAGS_DEBUG}")
+        string(REGEX REPLACE "[/|-]RTC(su|[1su])" ""     CMAKE_C_FLAGS_DEBUG            "${CMAKE_C_FLAGS_DEBUG}")
 
-        set(DEBUG_COMPILE /JMC /Od /MDd)
+        set(COMPILE
+            /MP
+            /cgthreads8
+            /Zc:preprocessor
+            /FC
+            /wd5105
+            /wd4133
+            /wd4047
+            /wd4028
+            /wd4024
+            /wd4005
+            /GS-
+            /GR-
+            /EHa-s-c-
+        )
+        set(LINK /INCREMENTAL:NO /CGTHREADS:8 /NODEFAULTLIB /ENTRY:main)
 
-        set(RELEASE_COMPILE /O2 /GS- /guard:cf /D NDEBUG /JMC- /GL /Ob3 /MD /fp:fast)
+        set(DEBUG_COMPILE /JMC /Od)
+
+        set(RELEASE_COMPILE /O2 /guard:cf- /D NDEBUG /JMC- /GL /Ob3 /fp:fast)
         set(RELEASE_LINK /OPT:REF /OPT:ICF=10000 /LTCG)
 
         set(RELDEB_COMPILE ${RELEASE_COMPILE})
-        set(RELDEB_LINK ${RELEASE_LINK})
+        set(RELDEB_LINK    ${RELEASE_LINK})
     else()
         set(COMPILE
+            -Wno-bool-conversion
+            -Wno-int-conversion
+            -Wno-compare-distinct-pointer-types
+            -Wno-incompatible-pointer-types
             -Wno-deprecated-comma-subscript
             -Wno-macro-redefined
             -Wno-address-of-temporary
+            -fdiagnostics-absolute-paths
             -fmacro-backtrace-limit=0
             -fexceptions
             -fdiagnostics-color
+            -nodefaultlibs
+            -nostdlib
         )
-        set(LINK -Xlinker /subsystem:console)
+        set(LINK -Xlinker /subsystem:console -static)
         set(DEBUG_COMPILE -O0 -g)
         set(RELEASE_COMPILE -Ofast -flto -march=native -DNDEBUG)
         set(RELDEB_COMPILE ${RELEASE_COMPILE} -g)

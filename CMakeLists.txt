@@ -9,7 +9,6 @@ include(settings)
 
 add_subdirectory(Base)
 add_subdirectory(Example)
-# TODO@Daniel:
-#   Add these back
-# add_subdirectory(Benchmark)
-# add_subdirectory(Test)
+
+add_subdirectory(Benchmark)
+add_subdirectory(Test)

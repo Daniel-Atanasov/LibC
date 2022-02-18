@@ -1,17 +1,11 @@
 {
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
     "files.associations": {
-        "deque": "cpp",
-        "initializer_list": "cpp",
-        "list": "cpp",
-        "random": "cpp",
-        "regex": "cpp",
-        "stack": "cpp",
-        "type_traits": "cpp",
-        "vector": "cpp",
-        "xhash": "cpp",
-        "xstring": "cpp",
-        "xtree": "cpp",
-        "xutility": "cpp",
-        "windows.ai.machinelearning.h": "c"
+        "windows.h": "c",
+        "inttypes.h": "c",
+        "stddef.h": "c",
+        "winapifamily.h": "c",
+        "${worspaceFolder}/Base/include/Base/Base.h": "c",
+        "${worspaceFolder}/Base/include/Base/Primitives.h": "c"
     }
 }

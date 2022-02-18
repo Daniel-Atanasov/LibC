@@ -1,18 +1,38 @@
 #pragma once
 
 typedef int Int;
+
 typedef unsigned int Uint;
 
-typedef __int8  Int8;
-typedef __int16 Int16;
-typedef __int32 Int32;
-typedef __int64 Int64;
+typedef char      Int8;
+typedef short     Int16;
+typedef int       Int32;
+typedef long long Int64;
 
-typedef unsigned __int8  Uint8;
-typedef unsigned __int16 Uint16;
-typedef unsigned __int32 Uint32;
-typedef unsigned __int64 Uint64;
+typedef unsigned char      Uint8;
+typedef unsigned short     Uint16;
+typedef unsigned int       Uint32;
+typedef unsigned long long Uint64;
+
+typedef Int8 Char;
+
+typedef Int8  Char8;
+typedef Int16 Char16;
+typedef Int32 Char32;
+typedef Int64 Char64;
+
+typedef float  Float32;
+typedef double Float64;
+
+typedef Char8  * String8;
+typedef Char16 * String16;
+typedef Char32 * String32;
+typedef Char64 * String64;
+
+typedef Int8 Byte;
+
+typedef Byte * Buffer;
 
 typedef _Bool Bool;
 
-typedef void * Pointer;
+typedef Byte * Pointer;
